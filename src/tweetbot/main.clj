@@ -18,20 +18,19 @@
 
 (def messages (load-file "src/tweetbot/quotes.clj"))
 
+;; (defn get-tweets [screen-name keyword]
+;;   (->> (statuses-user-timeline :oauth-creds tweetbot-creds
+;;                                :params {:screen-name screen-name :count 500})
+;;        (:body)
+;;        (map #(:text %))
+;;        (filter #(re-find (re-pattern keyword) %))))
+
 (defn tweet [msg]
-  (statuses-update :oauth-creds tweetbot-creds
-                   :params {:status msg}))
+  (statuses-update :oauth-creds tweetbot-creds :params {:status msg}))
 
 (defn random-msg []
   (let [msg (rand-nth messages)]
     (str (msg :msg) "\n" (msg :src))))
 
 (defn -main [& args]
-  ;; (every 1000 #(println (random-msg)) thread-pool))
-  (->> (map #(:text %) (:body (statuses-user-timeline :oauth-creds tweetbot-creds
-                                                      :params {:screen-name "ntalbs" :count 500})))
-
-       (filter #(re-find #"셈코 스토리" %))
-       (clojure.string/join "\n")
-       (println)))
-    
+  (every 1000 #(tweet (random-msg)) thread-pool))
