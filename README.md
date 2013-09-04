@@ -1,4 +1,4 @@
-tweetbot
+Tweetbot
 ========
 
 Simple tweet bot written in Clojure.

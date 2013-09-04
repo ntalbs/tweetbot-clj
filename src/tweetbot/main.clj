@@ -15,7 +15,7 @@
 (def tweetbot-creds
   (let [creds (load-file "src/tweetbot/oauth-settings.clj")]
     (make-oauth-creds (creds :consumer-key)
-                      (creds :consumer-setcret)
+                      (creds :consumer-secret)
                       (creds :access-token)
                       (creds :access-token-secret))))
 
