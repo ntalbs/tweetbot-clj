@@ -41,4 +41,4 @@
 (defn -main [& args]
   (do
     (mg/connect-via-uri! db-uri)
-    (every 1000 #(println (random-msg)) thread-pool)))
+    (every 1000 #(tweet (random-msg)) thread-pool)))
