@@ -8,7 +8,7 @@
         [twitter.api.restful]
         [overtone.at-at]))
 
-(def one-hour (* 1000 60 60))
+(def period (* 1000 60 60))             ; one hour
 (def thread-pool (mk-pool))
 (def db-uri (:db-uri (load-file "src/tweetbot/db-conf.clj")))
 
@@ -27,7 +27,10 @@
 ;;        (filter #(re-find (re-pattern keyword) %))))
 
 (defn tweet [msg]
-  (statuses-update :oauth-creds tweetbot-creds :params {:status msg}))
+  (do
+    (statuses-update :oauth-creds tweetbot-creds :params {:status msg})
+    (println ">>> " (new java.util.Date))
+    (println msg "\n")))
 
 (defn random-msg []
   (let [cnt (mc/count "quotes")
@@ -41,4 +44,4 @@
 (defn -main [& args]
   (do
     (mg/connect-via-uri! db-uri)
-    (every 1000 #(tweet (random-msg)) thread-pool)))
+    (every period #(tweet (random-msg)) thread-pool)))
