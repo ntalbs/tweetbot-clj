@@ -4,3 +4,6 @@ pom.xml
 /classes/
 /target/
 .lein-deps-sum
+.nrepl-port
+db-conf.clj
+oauth-settings.clj
