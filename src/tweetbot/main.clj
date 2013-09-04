@@ -1,4 +1,7 @@
 (ns tweetbot.main
+  (:require [monger.core :as mg]
+            [monger.collection :as mc]
+            [monger.query :as mq])
   (:use [twitter.oauth]
         [twitter.callbacks]
         [twitter.callbacks.handlers]
@@ -6,17 +9,15 @@
         [overtone.at-at]))
 
 (def one-hour (* 1000 60 60))
-
 (def thread-pool (mk-pool))
+(def db-uri (:db-uri (load-file "src/tweetbot/db-conf.clj")))
 
 (def tweetbot-creds
-  (let [creds (load-file "src/tweetbot/creds.clj")]
+  (let [creds (load-file "src/tweetbot/oauth-settings.clj")]
     (make-oauth-creds (creds :consumer-key)
                       (creds :consumer-setcret)
                       (creds :access-token)
                       (creds :access-token-secret))))
-
-(def messages (load-file "src/tweetbot/init-data.clj"))
 
 ;; (defn get-tweets [screen-name keyword]
 ;;   (->> (statuses-user-timeline :oauth-creds tweetbot-creds
@@ -29,9 +30,15 @@
   (statuses-update :oauth-creds tweetbot-creds :params {:status msg}))
 
 (defn random-msg []
-  (let [msg (rand-nth messages)]
+  (let [cnt (mc/count "quotes")
+        rnd (rand-int cnt)
+        msg (first (mq/with-collection "quotes"
+                     (mq/skip rnd)
+                     (mq/limit 1)
+                     (mq/snapshot)))]
     (str (msg :msg) "\n" (msg :src))))
 
 (defn -main [& args]
-  (every 1000 #(tweet (random-msg)) thread-pool))
-
+  (do
+    (mg/connect-via-uri! db-uri)
+    (every 1000 #(println (random-msg)) thread-pool)))
