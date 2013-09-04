@@ -16,7 +16,7 @@
                       (creds :access-token)
                       (creds :access-token-secret))))
 
-(def messages (load-file "src/tweetbot/quotes.clj"))
+(def messages (load-file "src/tweetbot/init-data.clj"))
 
 ;; (defn get-tweets [screen-name keyword]
 ;;   (->> (statuses-user-timeline :oauth-creds tweetbot-creds
@@ -34,3 +34,4 @@
 
 (defn -main [& args]
   (every 1000 #(tweet (random-msg)) thread-pool))
+
