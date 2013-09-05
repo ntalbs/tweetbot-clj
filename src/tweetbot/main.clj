@@ -6,14 +6,15 @@
         [twitter.callbacks]
         [twitter.callbacks.handlers]
         [twitter.api.restful]
-        [overtone.at-at]))
+        [overtone.at-at]
+        [tweetbot.conf]))
 
-(def period (* 1000 60 60))             ; one hour
 (def thread-pool (mk-pool))
-(def db-uri (:db-uri (load-file "src/tweetbot/db-conf.clj")))
+(def db-uri (conf :db-uri))
+(def tweet-interval (conf :tweet-interval))
 
 (def tweetbot-creds
-  (let [creds (load-file "src/tweetbot/oauth-settings.clj")]
+  (let [creds (conf :oauth-settings)]
     (make-oauth-creds (creds :consumer-key)
                       (creds :consumer-secret)
                       (creds :access-token)
@@ -44,4 +45,4 @@
 (defn -main [& args]
   (do
     (mg/connect-via-uri! db-uri)
-    (every period #(tweet (random-msg)) thread-pool)))
+    (every tweet-interval #(tweet (random-msg)) thread-pool)))
