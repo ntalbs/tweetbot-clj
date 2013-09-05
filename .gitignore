@@ -5,4 +5,4 @@ pom.xml
 /target/
 .lein-deps-sum
 .nrepl-port
-conf.clj
+config.clj

@@ -7,14 +7,14 @@
         [twitter.callbacks.handlers]
         [twitter.api.restful]
         [overtone.at-at]
-        [tweetbot.conf]))
+        [tweetbot.config]))
 
 (def thread-pool (mk-pool))
-(def db-uri (conf :db-uri))
-(def tweet-interval (conf :tweet-interval))
+(def db-uri (config :db-uri))
+(def tweet-interval (config :tweet-interval))
 
 (def tweetbot-creds
-  (let [creds (conf :oauth-settings)]
+  (let [creds (config :oauth-settings)]
     (make-oauth-creds (creds :consumer-key)
                       (creds :consumer-secret)
                       (creds :access-token)
