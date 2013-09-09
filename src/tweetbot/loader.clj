@@ -1,6 +1,6 @@
 ;; load messages in quotes.clj into mongodb
 
-(ns tweetbot.data
+(ns tweetbot.loader
   (:use [monger.core :only [connect-via-uri! disconnect!]]
         [monger.collection :only [insert-batch]]))
 
@@ -8,7 +8,8 @@
 
 (def messages (load-file "src/tweetbot/quotes.clj"))
 
-(do
-  (connect-via-uri! db-uri)
-  (insert-batch "quotes" messages)
-  (disconnect!))
+(defn -main []
+  (do
+    (connect-via-uri! db-uri)
+    (insert-batch "quotes" messages)
+    (disconnect!)))
