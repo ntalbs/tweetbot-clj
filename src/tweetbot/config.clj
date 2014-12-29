@@ -5,5 +5,5 @@
                     :consumer-secret (System/getenv "TWEETBOT_TWITTER_CONSUMER_SECRET"),
                     :access-token (System/getenv "TWEETBOT_TWITTER_ACCESS_TOKEN"),
                     :access-token-secret (System/getenv "TWEETBOT_TWITTER_ACCESS_TOKEN_SECRET")}
-   :db-uri "db-url"
+   :db-uri (System/getenv "TWEETBOT_DB_URI")
    :tweet-interval (* 1000 60 60)})
