@@ -4,13 +4,17 @@ Tweetbot
 Simple tweet bot written in Clojure.
 
 ## Setup
-Clone this project, copy `_config.clj` to `config.clj`.
+Clone this project.
 
     $ git clone https://github.com/ntalbs/tweetbot-clj.git
-    $ cd tweetbot-clj/src/tweetbot
-    $ cp _config.clj config.clj
 
-After the above steps, edit `config.clj` to fill the oauth credentials and database uri.
+Set environment variables.
+
+    $ export TWEETBOT_TWITTER_CONSUMER_KEY=...
+    $ export TWEETBOT_TWITTER_CONSUMER_SECRET=...
+    $ export TWEETBOT_TWITTER_ACCESS_TOKEN=...
+    $ export TWEETBOT_TWITTER_ACCESS_TOKEN_SECRET=...
+    $ export TWEETBOT_DB_URI=...
 
 ## Loading initial data
 You can load initial data in `init-data.clj` to your database using `mongo.clj`.
