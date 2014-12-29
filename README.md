@@ -8,7 +8,7 @@ Clone this project.
 
     $ git clone https://github.com/ntalbs/tweetbot-clj.git
 
-Set environment variables.
+Set the following environment variables.
 
     $ export TWEETBOT_TWITTER_CONSUMER_KEY=...
     $ export TWEETBOT_TWITTER_CONSUMER_SECRET=...
